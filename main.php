@@ -9,7 +9,7 @@
         
         $escaneo = new Escaneos("TEST1234554");
         $perfil = new Perfil("USR-CEVA-000");
-        $conexion = new Conexion ("","");
+        $conexion = new Conexion ("","","");
 
         while (true){
             echo "En espera de escaneo... \n";
@@ -17,16 +17,14 @@
             //ACLARAR DUDA DE USUARIOS PENDIENTE (COMO INGRESAR)
             //FALTA EL PROCESO PARA INGRESO DE USUARIO (PERFIL)
 
-              
-
+            
             $entradaTexto = readline();
-         
+            $entradaTexto = strtoupper($entradaTexto);
             $escaneo->setEscaneo($entradaTexto);
 
             if ($escaneo->elEscaneoEsUnPerfil()){
                 $perfil->setUsuario($entradaTexto);
                 echo "Usuario nuevo:" . $entradaTexto. "\n";
-
             }
 
             if ($escaneo->elEscaneoEsUnMu()){
@@ -43,17 +41,19 @@
                 $conexion->envioDeDatosANVR($perfil->getUsuario());
                 $conexion->setMu("");
                 $conexion->setUbicacion("");
+                limpiarConsola();
             }
 
             
-            //if ($escaneo->esMuValido()){
-
-            //}
-
+            
 
             
         }
 
+    }
+
+    function limpiarConsola(){
+        echo chr(27).chr(91).'H'.chr(27).chr(91).'J';   //^[H^[J
     }
 
    

@@ -29,11 +29,11 @@
         /* Empiezan validaciones al momento de escanear */
 
         public function elEscaneoEsUnPerfil(){
-            
-            if (strpos($this->escaneoActual, self::$perfilValido) !== false) {
-                return true; 
+            if (strpos($this->escaneoActual, 'USR-CEVA') !== false) {
+                return true; // Indica que el texto es un usuario
+            }else{
+                return false;
             }
-            return false;
             
         }
 
@@ -41,7 +41,9 @@
         
 
         public function elEscaneoEsUnaUbicacion(){
+         
             
+
             if (strpos($this->escaneoActual, 'A1-') !== false || 
                 strpos($this->escaneoActual, 'A2-') !== false ||
                 strpos($this->escaneoActual, 'B1-') !== false ||
