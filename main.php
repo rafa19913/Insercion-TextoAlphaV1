@@ -6,48 +6,56 @@
 
     function main(){
         //Se iniciza el objeto escaneos con el escaneo actual ( )
-        
+        date_default_timezone_set('America/Mexico_City');
+
         $escaneo = new Escaneos("TEST1234554");
         $perfil = new Perfil("USR-CEVA-000");
         $conexion = new Conexion ("","","");
 
+
+        $hora_actual = new DateTime();
+        $horaYFecha = $hora_actual->format('Y-m-d H:i:s');
+        $puertoActual = 0;
         while (true){
             echo "En espera de escaneo... \n";
             
             //ACLARAR DUDA DE USUARIOS PENDIENTE (COMO INGRESAR)
             //FALTA EL PROCESO PARA INGRESO DE USUARIO (PERFIL)
-
+            
             
             $entradaTexto = readline();
             $entradaTexto = strtoupper($entradaTexto);
             $escaneo->setEscaneo($entradaTexto);
+        
+            
 
             if ($escaneo->elEscaneoEsUnPerfil()){
                 $perfil->setUsuario($entradaTexto);
                 echo "Usuario nuevo:" . $entradaTexto. "\n";
-            }
+            }elseif
 
-            if ($escaneo->elEscaneoEsUnMu()){
+            ($escaneo->elEscaneoEsUnMu()){
                 $conexion->setMu($entradaTexto);
                 echo "MU nuevo:" . $entradaTexto. "\n";
             }
 
-            if ($escaneo->elEscaneoEsUnaUbicacion()){
+            
+            elseif ($escaneo->elEscaneoEsUnaUbicacion()){
                 $conexion->setUbicacion($entradaTexto);
+                $puertoActual = $escaneo->obtenerPuertoDeSalida();
                 echo "Ubicacion nuevo:" . $entradaTexto. "\n";
+                echo "Puerto nuevo:" . $puertoActual. "\n";
             }
 
-            if ($conexion->validarEnvioDeDatos()){
-                $conexion->envioDeDatosANVR($perfil->getUsuario());
+            
+            
+            if ($conexion->validarEnvioDeDatos()){    
+                $conexion->envioDeDatosANVR($perfil->getUsuario(), $horaYFecha, $puertoActual);
                 $conexion->setMu("");
                 $conexion->setUbicacion("");
                 limpiarConsola();
             }
 
-            
-            
-
-            
         }
 
     }
@@ -63,10 +71,8 @@
 
     //crearObjetos();
     main();
-    
-    
-    
 
+    
      //Información del grabador
     /* $nvr_ip = "192.168.100.129";
      $nvr_puerto = "14002";

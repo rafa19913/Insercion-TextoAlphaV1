@@ -5,7 +5,27 @@
     class Escaneos {
 
           // Declaración de una variable estática
-        public static $perfilValido = 'USR-CEVA-00';
+          
+        public static $puertosTotales = [
+                                            "A1-" => "14002", 
+                                            "A2-" => "14002",
+                                            "B1-" => "14003",
+                                            "B2-" => "14003",
+                                            "C1-" => "14004",
+                                            "C2-" => "14004",
+                                            "D1-" => "14005",
+                                            "D2-" => "14005",
+                                            "E1-" => "14006",
+                                            "E2-" => "14006",
+                                            "F1-" => "14007",
+                                            "F2-" => "14007",
+                                            "G1-" => "14008",
+                                            "G2-" => "14008",
+                                            "H1-" => "14009",
+                                            "H2-" => "14009",
+                                            "I1-" => "14010",
+                                            "I2-" => "14010",
+                                                            ]; 
    
         
         private $escaneoActual;
@@ -37,13 +57,39 @@
             
         }
 
+
+
+        public function elEscaneoEsUnaUbicacion(){
+            $cantidadCaracteres = strlen($this->escaneoActual);
+            if ($cantidadCaracteres == 9){
+                $ubicacionCorta = substr($this->escaneoActual, 0, 3);
+                if (array_key_exists($ubicacionCorta, Escaneos::$puertosTotales)) {
+                    return true;
+                }
+
+            }
+            return false;
+        }
+
+        public function obtenerPuertoDeSalida(){
+            $ubicacionCorta = substr($this->escaneoActual, 0, 3);
+            if (array_key_exists($ubicacionCorta, Escaneos::$puertosTotales)) {
+                return Escaneos::$puertosTotales[$ubicacionCorta];
+            }
+        }
        
         
 
-        public function elEscaneoEsUnaUbicacion(){
-         
-            
+       /* public function elEscaneoEsUnaUbicacion(){
+            $cantidadCaracteres = strlen($$this->escaneoActual);
+            if ($cantidadCaracteres == 9){
 
+               
+                
+            }else{
+                return false;
+            }
+         
             if (strpos($this->escaneoActual, 'A1-') !== false || 
                 strpos($this->escaneoActual, 'A2-') !== false ||
                 strpos($this->escaneoActual, 'B1-') !== false ||
@@ -63,13 +109,12 @@
                 strpos($this->escaneoActual, 'I1-') !== false ||
                 strpos($this->escaneoActual, 'I2-') !== false 
                 
-                 
                  ) {
                 return true; // Indica que el texto es una ubicacion
             }else{
                 return false;
             }
-        }
+        }*/
 
         public function elEscaneoEsUnMu(){
 

@@ -3,13 +3,16 @@
     
     //Clase Conexion para el envio y manejo de datos a NVR 
     class Conexion {
+
+        public static $nvrIp = "192.168.100.129";
+
         private $mu;
         private $ubicacion;
 
         private $puerto;
 
-        public static $nvrIp = "192.168.100.129";
-
+ 
+        
         
         public function __construct($mu, $ubicacion, $puerto){
             $this->mu = $mu;
@@ -44,15 +47,15 @@
             }
         }
 
-        public function envioDeDatosANVR($usuario){
+        public function envioDeDatosANVR($usuario, $horaYFecha, $puerto){
 
-            //FALTA: hacer el proceso de enviar datos a NVR
-            $puerto = $this->obtenerPuertoDeSalida($this->ubicacion);
+
+            //$puerto = $this->obtenerPuertoDeSalida($this->ubicacion);
             
             //echo "Se envio data al NVR \n";
             //echo "User:". $usuario. " MU:" . $this->mu . " Ubicacion:" . $this->ubicacion . "\n";
             
-            $hoyYahora = date('Y-m-d H:i:s', strtotime('-1 hour'));
+            
             //Información de la conexión
             $tiempo = 1;
 
@@ -63,11 +66,17 @@
                 //Si no hay conexión, imprime el error.
                 echo "$errstr ($errno)<br />\n";
             }else{
+
+                date_default_timezone_set('America/Mexico_City');
+                $hora_actual = new DateTime();
+                $horaYFecha = $hora_actual->format('Y-m-d H:i:s');
+                
+                //echo 'Hora actual en México: ' . $hora_actual->format('Y-m-d H:i:s') . "\n";
                 //Se concatenan los datos a imprimir.        \r\n = ENTER
 
                 //Se concatenan los datos a imprimir.        \r\n = ENTER
                 $datos = "";
-                $datos .= "Fecha: $hoyYahora \r\n";
+                $datos .= "Fecha: $horaYFecha \r\n";
                 $datos .= "Usuario: $usuario \r\n";
                 $datos .= "Codigo: $this->mu \r\n";
                 $datos .= "Ubicacion: $this->ubicacion \r\n";
@@ -84,7 +93,7 @@
 
 
         }
-
+/*
         public function obtenerPuertoDeSalida($ubicacion){
 
             if (strpos($ubicacion, 'A1-') !== false || 
@@ -108,7 +117,7 @@
         }
         
 
-
+*/
 
     }
 
