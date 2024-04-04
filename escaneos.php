@@ -4,7 +4,7 @@
     //Clase Escaneos para el manejo los escaneos actuales 
     class Escaneos {
 
-          // Declaración de una variable estática
+        //Declaración de una variable estática
           
         public static $puertosTotales = [
                                             "A1-" => "14002", 
@@ -61,21 +61,35 @@
 
         public function elEscaneoEsUnaUbicacion(){
             $cantidadCaracteres = strlen($this->escaneoActual);
+            // La ubicacion es en recibos 
+            if ($this->escaneoActual == "SHIP05"){
+                return true;
+            }
+
+            // La ubicacion es en estante
             if ($cantidadCaracteres == 9){
                 $ubicacionCorta = substr($this->escaneoActual, 0, 3);
+
                 if (array_key_exists($ubicacionCorta, Escaneos::$puertosTotales)) {
                     return true;
                 }
-
             }
             return false;
         }
 
         public function obtenerPuertoDeSalida(){
             $ubicacionCorta = substr($this->escaneoActual, 0, 3);
+
+            if ($this->escaneoActual == "SHIP05"){ // REGRESA EL PUERTO DE RECIBOS 
+                return "14001"; // PUERTO DE RECIBOS 
+            }
+            
+
             if (array_key_exists($ubicacionCorta, Escaneos::$puertosTotales)) {
                 return Escaneos::$puertosTotales[$ubicacionCorta];
             }
+            // EN CASO QUE ENCUENTRE SE ESCANEE UNA UBICACION NO DADA DE ALTA SE MANDA A LA CAMARA DE RECIBOS
+            return "14001";
         }
        
         
@@ -123,7 +137,6 @@
             }else{
                 return false;
             }
-
 
         }
     

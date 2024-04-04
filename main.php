@@ -5,17 +5,17 @@
     require_once 'conexion.php';
 
     function main(){
-        //Se iniciza el objeto escaneos con el escaneo actual ( )
-        date_default_timezone_set('America/Mexico_City');
+            //Se iniciza el objeto escaneos con el escaneo actual ( )
+            date_default_timezone_set('America/Mexico_City');
 
-        $escaneo = new Escaneos("TEST1234554");
-        $perfil = new Perfil("USR-CEVA-000");
-        $conexion = new Conexion ("","","");
+            $escaneo = new Escaneos("TEST1234554");
+            $perfil = new Perfil("USR-CEVA-000");
+            $conexion = new Conexion ("","","");
 
 
-        $hora_actual = new DateTime();
-        $horaYFecha = $hora_actual->format('Y-m-d H:i:s');
-        $puertoActual = 0;
+            $hora_actual = new DateTime();
+            $horaYFecha = $hora_actual->format('Y-m-d H:i:s');
+            $puertoActual = 0;
         while (true){
             echo "En espera de escaneo... \n";
             
