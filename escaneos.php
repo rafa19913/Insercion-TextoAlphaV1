@@ -26,8 +26,7 @@
                                             "I1-" => "14010",
                                             "I2-" => "14010",
                                                             ]; 
-   
-        
+
         private $escaneoActual;
         
         
@@ -80,7 +79,7 @@
         public function obtenerPuertoDeSalida(){
             $ubicacionCorta = substr($this->escaneoActual, 0, 3);
 
-            if ($this->escaneoActual == "SHIP05"){ // REGRESA EL PUERTO DE RECIBOS 
+            if ($this->escaneoActual == "SHIP05" || $this->escaneoActual == "RECEIVE01"){ // REGRESA EL PUERTO DE RECIBOS 
                 return "14001"; // PUERTO DE RECIBOS 
             }
             
@@ -93,43 +92,6 @@
         }
        
         
-
-       /* public function elEscaneoEsUnaUbicacion(){
-            $cantidadCaracteres = strlen($$this->escaneoActual);
-            if ($cantidadCaracteres == 9){
-
-               
-                
-            }else{
-                return false;
-            }
-         
-            if (strpos($this->escaneoActual, 'A1-') !== false || 
-                strpos($this->escaneoActual, 'A2-') !== false ||
-                strpos($this->escaneoActual, 'B1-') !== false ||
-                strpos($this->escaneoActual, 'B2-') !== false ||
-                strpos($this->escaneoActual, 'C1-') !== false ||
-                strpos($this->escaneoActual, 'C2-') !== false ||
-                strpos($this->escaneoActual, 'D1-') !== false ||
-                strpos($this->escaneoActual, 'D2-') !== false ||
-                strpos($this->escaneoActual, 'E1-') !== false ||
-                strpos($this->escaneoActual, 'E2-') !== false ||
-                strpos($this->escaneoActual, 'F1-') !== false ||
-                strpos($this->escaneoActual, 'F2-') !== false ||
-                strpos($this->escaneoActual, 'G1-') !== false ||
-                strpos($this->escaneoActual, 'G2-') !== false ||
-                strpos($this->escaneoActual, 'H1-') !== false ||
-                strpos($this->escaneoActual, 'H2-') !== false ||
-                strpos($this->escaneoActual, 'I1-') !== false ||
-                strpos($this->escaneoActual, 'I2-') !== false 
-                
-                 ) {
-                return true; // Indica que el texto es una ubicacion
-            }else{
-                return false;
-            }
-        }*/
-
         public function elEscaneoEsUnMu(){
 
             if (strpos($this->escaneoActual, 'SN') !== false || strpos($this->escaneoActual, 'SNS') !== false || strpos($this->escaneoActual, 'SNSS') !== false) {
@@ -138,6 +100,39 @@
                 return false;
             }
 
+        }
+
+
+
+        public function actualEscaneo($escaneo){
+            // SE VALIDA EN QUE PROCESO ESTAMOS (RECIBOS, PICKING, RELOCATE)
+            // Dato introducido por el usuario
+      
+            
+            // Expresión regular para validar si el escaneo sera recibos
+            $preAdvice = "/^RE\d{6}$/";
+            // Expresión regular para validar si el escaneo sera en picking
+            $taskID = "/^OR\d{6}$/";
+
+
+            if (preg_match($preAdvice, $escaneo)) {
+                //Empieza el proceso de recibos
+                $this->empezarProcesoRecibos();
+                return "RECIBOS";
+            }
+
+            else if(preg_match($taskID, $escaneo)) {
+                //Empieza el proceso de picking
+                return "PICK";
+            }
+
+            
+            return "NADA";
+
+        }
+
+        public function empezarProcesoRecibos(){
+            echo "Alo";
         }
     
         
